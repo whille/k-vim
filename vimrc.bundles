@@ -381,20 +381,10 @@ au Syntax * RainbowParenthesesLoadBraces
 
 " ################### 显示增强-主题 ###################"
 
-" 主题 solarized
-Bundle 'altercation/vim-colors-solarized'
-let g:solarized_termtrans=1
-let g:solarized_contrast="normal"
-let g:solarized_visibility="normal"
-" let g:solarized_termcolors=256
-
 " 主题 molokai
 Bundle 'tomasr/molokai'
 " monokai原始背景色
 let g:molokai_original = 1
-
-" 主题 tomorrow
-Bundle 'chriskempson/vim-tomorrow-theme'
 
 
 " ################### 快速导航 ###################

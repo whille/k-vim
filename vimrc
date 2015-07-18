@@ -385,8 +385,7 @@ noremap <silent><leader>/ :nohls<CR>
 " --------tab/buffer相关
 
 "Use arrow key to change buffer"
-" TODO: 如何跳转到确定的buffer?
-" :b1 :b2   :bf :bl
+" :b1 :b2   :bf :bl :b abc<TAB>
 nnoremap [b :bprevious<cr>
 nnoremap ]b :bnext<cr>
 noremap <left> :bp<CR>
@@ -565,12 +564,7 @@ endif
 " theme主题
 set background=dark
 set t_Co=256
-colorscheme solarized
-" colorscheme molokai
-" colorscheme Tomorrow-Night
-" colorscheme Tomorrow-Night-Bright
-" colorscheme desert
-
+colorscheme molokai
 
 
 "设置标记一列的背景颜色和数字一行颜色一致

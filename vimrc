@@ -81,8 +81,7 @@ if has('persistent_undo')
   set undodir=/tmp/vimundo/
 endif
 
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
-" 突出显示当前行等
+set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git
 set cursorcolumn
 set cursorline          " 突出显示当前行
 
@@ -548,7 +547,7 @@ endif
 if has("gui_running")
     set guifont=Monaco:h14
     if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
+        set guifont=Monospace\ 14
     endif
     set guioptions-=T
     set guioptions+=e

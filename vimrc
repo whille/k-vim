@@ -82,7 +82,7 @@ if has('persistent_undo')
 endif
 
 set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git
-set cursorcolumn
+set nocursorcolumn
 set cursorline          " 突出显示当前行
 
 

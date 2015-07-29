@@ -490,6 +490,9 @@ nnoremap U <C-r>
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
+" set working directory
+nnoremap <leader>. :lcd %:p:h<CR>
+
 "==========================================
 " FileType Settings  文件类型设置
 "==========================================

@@ -75,51 +75,6 @@ nnoremap <Leader>s :call ToggleErrors()<cr>
 " nnoremap <Leader>sp :lprevious<cr>
 
 
-
-" ################### 自动补全 ###################
-
-" 代码自动补全
-"迄今为止用到的最好的自动VIM自动补全插件
-"重启 :YcmRestartServer
-"Bundle 'Valloric/YouCompleteMe'
-"youcompleteme  默认tab  s-tab 和自动补全冲突
-"let g:ycm_key_list_select_completion=['<c-n>']
-let g:ycm_key_list_select_completion = ['<Down>']
-"let g:ycm_key_list_previous_completion=['<c-p>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
-let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
-let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
-let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
-let g:ycm_collect_identifiers_from_tags_files = 1
-
-"let g:ycm_seed_identifiers_with_syntax=1   "语言关键字补全, 不过python关键字都很短，所以，需要的自己打开
-
-" 跳转到定义处, 分屏打开
-let g:ycm_goto_buffer_command = 'horizontal-split'
-" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
-
-" 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
-" old version
-if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
-    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
-endif
-" new version
-if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
-    let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-endif
-
-" 直接触发自动补全 insert模式下
-" let g:ycm_key_invoke_completion = '<C-Space>'
-" 黑名单,不启用
-let g:ycm_filetype_blacklist = {
-      \ 'tagbar' : 1,
-      \ 'gitcommit' : 1,
-      \}
-
-
 " 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
 Bundle 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
@@ -133,27 +88,6 @@ let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
 " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
 " 进入对应filetype的snippets进行编辑
 map <leader>us :UltiSnipsEdit<CR>
-
-" ctrl+j/k 进行选择
-func! g:JInYCM()
-    if pumvisible()
-        return "\<C-n>"
-    else
-        return "\<c-j>"
-    endif
-endfunction
-
-func! g:KInYCM()
-    if pumvisible()
-        return "\<C-p>"
-    else
-        return "\<c-k>"
-    endif
-endfunction
-inoremap <c-j> <c-r>=g:JInYCM()<cr>
-au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
-let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
-
 
 " 自动补全单引号，双引号等
 Bundle 'Raimondi/delimitMate'
@@ -216,17 +150,6 @@ Bundle 'vim-scripts/matchit.zip'
 " m<Space>  del all marks
 Bundle "kshenoy/vim-signature"
 
-" ################### 文本对象 ###################
-
-" 支持自定义文本对象
-Bundle 'kana/vim-textobj-user.git'
-" 增加行文本对象: l   dal yal cil
-Bundle 'kana/vim-textobj-line'
-" 增加文件文本对象: e   dae yae cie
-Bundle 'kana/vim-textobj-entire.git'
-" 增加缩进文本对象: i   dai yai cii - 相同缩进属于同一块
-Bundle 'kana/vim-textobj-indent.git'
-
 " ################### 快速选中 ###################
 " 选中区块
 Bundle 'terryma/vim-expand-region'
@@ -270,16 +193,6 @@ let g:ctrlp_follow_symlinks=1
   " let g:ctrlp_use_caching = 0
 " endif
 
-
-" ctrlp插件1 - 不用ctag进行函数快速跳转
-Bundle 'tacahiroy/ctrlp-funky'
-nnoremap <Leader>fu :CtrlPFunky<Cr>
-" narrow the list down with a word under cursor
-nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-let g:ctrlp_funky_syntax_highlight = 1
-
-let g:ctrlp_extensions = ['funky']
-
 " 类似sublimetext的搜索
 Bundle "dyng/ctrlsf.vim"
 " In CtrlSF window:
@@ -307,25 +220,7 @@ let g:ctrlsf_mapping = {
     \ }
 
 
-" git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
-" :Gdiff  :Gstatus :Gvsplit
 Bundle 'tpope/vim-fugitive'
-nnoremap <leader>ge :Gdiff<CR>
-" not ready to open
-" <leader>gb maps to :Gblame<CR>
-" <leader>gs maps to :Gstatus<CR>
-" <leader>gd maps to :Gdiff<CR>  和现有冲突
-" <leader>gl maps to :Glog<CR>
-" <leader>gc maps to :Gcommit<CR>
-" <leader>gp maps to :Git push<CR>
-
-" 同git diff,实时展示文件中修改的行
-" 只是不喜欢除了行号多一列, 默认关闭,gs时打开
-Bundle 'airblade/vim-gitgutter'
-let g:gitgutter_map_keys = 0
-let g:gitgutter_enabled = 0
-let g:gitgutter_highlight_lines = 1
-nnoremap <leader>gs :GitGutterToggle<CR>
 
 " edit history, 可以查看回到某个历史状态
 Bundle 'sjl/gundo.vim'
@@ -391,7 +286,7 @@ let g:molokai_original = 1
 " ################### 快速导航 ###################
 "目录导航
 Bundle 'scrooloose/nerdtree'
-map <leader>n :NERDTreeToggle<CR>
+nmap <F8> :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
 "close vim if the only window left open is a NERDTree
@@ -518,23 +413,18 @@ let g:html_indent_inctags = "html,body,head,tbody"
 let g:html_indent_script1 = "inc"
 let g:html_indent_style1 = "inc"
 
-
-" for javascript 自动补全,配合YCM,需要安装nodejs&npm  see
-" https://github.com/marijnh/tern_for_vim
-" Bundle 'marijnh/tern_for_vim'
-
 " for jquery
 Bundle 'nono/jquery.vim'
 
 " ###### emmet HTML complete #########
-" Bundle "mattn/emmet-vim"
+Bundle "mattn/emmet-vim"
 
 " ###### vim.less : less 自动更新##########
 " Bundle 'groenewege/vim-less'
 " autocmd BufWritePost *.less :!lessc % > %:p:r.css
 
 " ###### Jinja2 #########
-Bundle 'Glench/Vim-Jinja2-Syntax'
+" Bundle 'Glench/Vim-Jinja2-Syntax'
 
 " for css color
 " not work in iterm2 which termianl selection is not xterm-256
@@ -544,7 +434,7 @@ Bundle 'Glench/Vim-Jinja2-Syntax'
 " Bundle 'gorodinskiy/vim-coloresque'
 
 " ###### nginx #########
-" Bundle 'evanmiller/nginx-vim-syntax'
+Bundle 'evanmiller/nginx-vim-syntax'
 
 
 " ####### temp #######

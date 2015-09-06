@@ -178,7 +178,7 @@ let g:NERDSpaceDelims=1
 " 快速加入修改环绕字符
 Bundle 'tpope/vim-surround'
 " for repeat -> enhance surround.vim, . to repeat command
-Bundle 'tpope/vim-repeat'
+" Bundle 'tpope/vim-repeat'
 
 " 快速去行尾空格 [, + <Space>]
 Bundle 'bronson/vim-trailing-whitespace'
@@ -392,6 +392,7 @@ let g:molokai_original = 1
 "目录导航
 Bundle 'scrooloose/nerdtree'
 map <leader>n :NERDTreeToggle<CR>
+nmap <F8> :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
 "close vim if the only window left open is a NERDTree

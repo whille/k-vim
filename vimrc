@@ -95,7 +95,10 @@ set t_ti= t_te=
 set mouse-=a             " 鼠标暂不启用, 键盘党....
 " set mouse=a                 " Automatically enable mouse usage
 " set mousehide               " Hide the mouse cursor while typing
-
+"
+vnoremap <leader>y "+y
+" 设置快捷键将系统剪贴板内容粘贴至 vim
+nmap <leader>p "+p
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 "set selection=exclusive

@@ -186,12 +186,12 @@ let g:ctrlp_match_window_reversed=0
 let g:ctrlp_mruf_max=500
 let g:ctrlp_follow_symlinks=1
 " 如果安装了ag, 使用ag
-" if executable('ag')
-  " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  " " ag is fast enough that CtrlP doesn't need to cache
-  " let g:ctrlp_use_caching = 0
-" endif
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 " 类似sublimetext的搜索
 Bundle "dyng/ctrlsf.vim"
@@ -201,6 +201,7 @@ Bundle "dyng/ctrlsf.vim"
 " T - Lkie t but focus CtrlSF window instead of opened new tab.
 " q - Quit CtrlSF window.
 nmap \ <Plug>CtrlSFCwordPath<CR>
+nmap <leader>t :CtrlSFToggle<CR>
 " let g:ctrlsf_position = 'below'
 " let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_close = 1
@@ -379,27 +380,13 @@ let g:pyflakes_use_quickfix = 0
 Bundle 'hdima/python-syntax'
 let python_highlight_all = 1
 
-" ###### Golang #########
-" 1.install golang and install gocode 'go get github.com/nsf/gocode'
-" 2.make sure gocode in your path: `which gocode` (add $GOPATH/bin to you $PATH)
-Bundle 'Blackrush/vim-gocode'
-" Bundle 'fatih/vim-go.git'
-
-" ###### Ruby #########
-" Bundle 'vim-ruby/vim-ruby'
-" Bundle 'nelstrom/vim-textobj-rubyblock'
-
-" 有bug, 和当前有冲突, 尚未解决, 不要打开
-" Bundle 'tpope/vim-endwise'
-
-
 " ###### Markdown #########
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
 " https://github.com/suan/vim-instant-markdown
 " npm -g install instant-markdown-d
-" Bundle 'suan/vim-instant-markdown'
+Bundle 'suan/vim-instant-markdown'
 " let g:instant_markdown_slow = 1
 " let g:instant_markdown_autostart = 0
 " map <F12> :InstantMarkdownPreview<CR>
@@ -419,20 +406,6 @@ Bundle 'nono/jquery.vim'
 " ###### emmet HTML complete #########
 Bundle "mattn/emmet-vim"
 
-" ###### vim.less : less 自动更新##########
-" Bundle 'groenewege/vim-less'
-" autocmd BufWritePost *.less :!lessc % > %:p:r.css
-
-" ###### Jinja2 #########
-" Bundle 'Glench/Vim-Jinja2-Syntax'
-
-" for css color
-" not work in iterm2 which termianl selection is not xterm-256
-" Bundle 'ap/vim-css-color'
-
-" 这个有坑, see issue https://github.com/wklken/k-vim/issues/49
-" Bundle 'gorodinskiy/vim-coloresque'
-
 " ###### nginx #########
 Bundle 'evanmiller/nginx-vim-syntax'
 
@@ -448,5 +421,4 @@ let g:yapf_style = "pep8"
 " setenv PYTHONIOENCODING UTF-8
 nnoremap <leader>y :call Yapf()<cr>
 
-" Bundle 'amoffat/snake'
 "------------------------------------------- end of configs --------------------------------------------

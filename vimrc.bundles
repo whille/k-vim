@@ -110,7 +110,7 @@ let g:NERDSpaceDelims=1
 " 快速加入修改环绕字符
 Bundle 'tpope/vim-surround'
 " for repeat -> enhance surround.vim, . to repeat command
-Bundle 'tpope/vim-repeat'
+" Bundle 'tpope/vim-repeat'
 
 " 快速去行尾空格 [, + <Space>]
 Bundle 'bronson/vim-trailing-whitespace'
@@ -210,6 +210,7 @@ Bundle "dyng/ctrlsf.vim"
 " T - Lkie t but focus CtrlSF window instead of opened new tab.
 " q - Quit CtrlSF window.
 nmap \ <Plug>CtrlSFCwordPath<CR>
+nmap <leader>t :CtrlSFToggle<CR>
 " let g:ctrlsf_position = 'below'
 " let g:ctrlsf_winsize = '30%'
 let g:ctrlsf_auto_close = 1
@@ -351,18 +352,10 @@ let g:pyflakes_use_quickfix = 0
 Bundle 'hdima/python-syntax'
 let python_highlight_all = 1
 
-" ###### Golang #########
-" 1.install golang and install gocode 'go get github.com/nsf/gocode'
-" 2.make sure gocode in your path: `which gocode` (add $GOPATH/bin to you $PATH)
-"Bundle 'Blackrush/vim-gocode'
-" Bundle 'fatih/vim-go.git'
-
-
 " ###### Markdown #########
 Bundle 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled=1
 
-" https://github.com/suan/vim-instant-markdown
 " npm -g install instant-markdown-d
 Bundle 'suan/vim-instant-markdown'
 let g:instant_markdown_slow = 1
@@ -383,20 +376,6 @@ Bundle 'nono/jquery.vim'
 
 " ###### emmet HTML complete #########
 Bundle "mattn/emmet-vim"
-
-" ###### vim.less : less 自动更新##########
-" Bundle 'groenewege/vim-less'
-" autocmd BufWritePost *.less :!lessc % > %:p:r.css
-
-" ###### Jinja2 #########
-" Bundle 'Glench/Vim-Jinja2-Syntax'
-
-" for css color
-" not work in iterm2 which termianl selection is not xterm-256
-" Bundle 'ap/vim-css-color'
-
-" 这个有坑, see issue https://github.com/wklken/k-vim/issues/49
-" Bundle 'gorodinskiy/vim-coloresque'
 
 " ###### nginx #########
 Bundle 'evanmiller/nginx-vim-syntax'

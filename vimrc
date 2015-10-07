@@ -93,7 +93,8 @@ set mouse-=a             " 鼠标暂不启用, 键盘党....
 
 " 设置快捷键将系统剪贴板内容粘贴至 vim
 vnoremap <leader>y "+y
-nmap <leader>p "+p
+" 防止与ctrlp的热键冲突
+nmap <leader>pp "+p
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 "set selection=exclusive
@@ -325,7 +326,7 @@ noremap L $
 
 "Map ; to : and save a million keystrokes
 " ex mode commands made easy 用于快速进入命令行
-nnoremap ; :
+" nnoremap ; :
 
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾

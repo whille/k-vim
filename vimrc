@@ -30,7 +30,6 @@ let g:mapleader = ','
 " 开启语法高亮
 syntax on
 
-
 " install Vundle bundles
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
@@ -277,13 +276,6 @@ map <Right> <Nop>
 map <Up> <Nop>
 map <Down> <Nop>
 
-"Treat long lines as break lines (useful when moving around in them)
-"se swap之后，同物理行上线直接跳
-nnoremap k gk
-nnoremap gk k
-nnoremap j gj
-nnoremap gj j
-
 " F1 - F6 设置
 " F1 废弃这个键,防止调出系统帮助
 " F2 行号开关，用于鼠标复制代码用
@@ -477,6 +469,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
+    set background=light
     set guifont=Monaco:h14
     if has("gui_gtk2")   "GTK2
         set guifont=Monospace\ 14
@@ -489,13 +482,13 @@ if has("gui_running")
     set showtabline=1
     set linespace=2
     set noimd
-    set t_Co=256
 endif
 
 " theme主题
 set background=dark
-set t_Co=256
-colorscheme molokai
+colorscheme solarized
+" colorscheme molokai
+" colorscheme desert
 
 
 "设置标记一列的背景颜色和数字一行颜色一致

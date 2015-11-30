@@ -232,12 +232,6 @@ set formatoptions+=m
 set formatoptions+=B
 
 
-"==========================================
-" others 其它设置
-"==========================================
-autocmd! bufwritepost _vimrc source % " vimrc文件修改之后自动加载。 windows。
-autocmd! bufwritepost .vimrc source % " vimrc文件修改之后自动加载。 linux。
-
 " 自动补全配置
 "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
 set completeopt=longest,menu
@@ -247,8 +241,6 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.class
 
-"离开插入模式后自动关闭预览窗口
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 "回车即选中当前项
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 
@@ -257,12 +249,6 @@ inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
 inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
-
-" if this not work ,make sure .viminfo is writable for you
-if has("autocmd")
-    au BufRead,BufNewFile *.txt,*.md setlocal textwidth=80
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
 
 "==========================================
 " HotKey Settings  自定义快捷键设置
@@ -298,9 +284,6 @@ nnoremap <F4> :set wrap! wrap?<CR>
 set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
-
-" disbale paste mode when leaving insert mode
-au InsertLeave * set nopaste
 
 nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
@@ -346,8 +329,6 @@ nnoremap <silent> g* g*zz
 nnoremap # *
 nnoremap * #
 
-" for # indent, python文件中输入新行时#号注释不切回行首
-autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
 
 " 去掉搜索高亮
@@ -385,7 +366,6 @@ noremap <leader>0 :tablast<cr>
 let g:last_active_tab = 1
 nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
 vnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
-autocmd TabLeave * let g:last_active_tab = tabpagenr()
 
 
 " ------- 选中及操作改键
@@ -414,14 +394,33 @@ nnoremap U <C-r>
 " set working directory
 nnoremap <leader>. :lcd %:p:h<CR>
 
-"==========================================
-" FileType Settings  文件类型设置
-"==========================================
+if has("autocmd")
+    augroup vimrc_autocmd
+        autocmd!
 
-" Python 文件的一般设置，比如不要 tab 等
+" Highlight TODO, FIXME, NOTE, etc.
+if v:version > 701
+    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
+    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
+endif
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+autocmd BufRead,BufNewFile *.txt,*.md setlocal textwidth=80
+autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 autocmd BufRead,BufNew *.md,*.mkd,*.markdown  set filetype=markdown.mkd
+" Jump to the last position when reopening a file
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+"离开插入模式后自动关闭预览窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" disbale paste mode when leaving insert mode
+autocmd InsertLeave * set nopaste
+" for # indent, python文件中输入新行时#号注释不切回行首
+autocmd TabLeave * let g:last_active_tab = tabpagenr()
+
+    augroup END
+endif
 
 
 " 保存python文件时删除多余空格
@@ -431,11 +430,8 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-
 
 " 定义函数AutoSetFileHead，自动插入文件头
-autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
 function! AutoSetFileHead()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
@@ -453,15 +449,6 @@ function! AutoSetFileHead()
     normal o
 endfunc
 
-
-" set some keyword to highlight
-if has("autocmd")
-  " Highlight TODO, FIXME, NOTE, etc.
-  if v:version > 701
-    autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\)')
-    autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\)')
-  endif
-endif
 
 "==========================================
 " Theme Settings  主题设置

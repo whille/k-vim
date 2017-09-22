@@ -407,6 +407,9 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+" Autocomplete with dictionary words when spell check is on
+set dictionary+=/usr/share/dict/words
+set complete+=k
 autocmd BufRead,BufNewFile *.txt,*.md setlocal textwidth=80
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 autocmd BufRead,BufNew *.md,*.mkd,*.markdown  set filetype=markdown.mkd
@@ -418,6 +421,9 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * set nopaste
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd TabLeave * let g:last_active_tab = tabpagenr()
+autocmd BufRead,BufNewFile logging.conf setf dosini
+" Ali: to indent json files on save
+" autocmd FileType json autocmd BufWritePre <buffer> %!python -m json.tool
 
     augroup END
 endif
@@ -472,8 +478,8 @@ if has("gui_running")
 endif
 
 " theme主题
-set background=dark
 set t_Co=256
+set background=dark
 colorscheme solarized
 " colorscheme molokai
 " colorscheme desert

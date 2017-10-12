@@ -185,7 +185,7 @@ if count(g:bundle_groups, 'python')
     Plug 'hynek/vim-python-pep8-indent'
     " Plug 'Glench/Vim-Jinja2-Syntax'
 
-    # 对import排序
+    " 对import排序
     " isort  https://github.com/timothycrosley/isort#readme + https://github.com/fisadev/vim-isort#installation
     " pip install isort
     Plug 'fisadev/vim-isort'

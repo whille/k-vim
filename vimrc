@@ -76,19 +76,6 @@ set nobackup
 set noswapfile
 
 
-" TODO: remove this, use gundo
-" create undo file
-" if has('persistent_undo')
-  " " How many undos
-  " set undolevels=1000
-  " " number of lines to save for undo
-  " set undoreload=10000
-  " " So is persistent undo ...
-  " "set undofile
-  " set noundofile
-  " " set undodir=/tmp/vimundo/
-" endif
-
 set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git,*.beam
 
 " 突出显示当前列
@@ -158,6 +145,9 @@ set number
 set norelativenumber
 " 取消换行
 set nowrap
+set linebreak
+" setlocal spell 语法检查
+" zg 添加到词库
 
 " 括号配对情况, 跳转并高亮一下匹配的括号
 set showmatch
@@ -329,19 +319,8 @@ nnoremap gj j
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
 noremap <F1> <Esc>"
 
-" F2 行号开关，用于鼠标复制代码用
 " 为方便复制，用<F2>开启/关闭行号显示:
-function! HideNumber()
-  if(&relativenumber == &number)
-    set relativenumber! number!
-  elseif(&number)
-    set number!
-  else
-    set relativenumber!
-  endif
-  set number?
-endfunc
-nnoremap <F2> :call HideNumber()<CR>
+nnoremap <F2> :set number!<CR>
 " F3 显示可打印字符开关
 nnoremap <F3> :set list! list?<CR>
 " F4 换行开关
@@ -582,15 +561,15 @@ function! AutoSetFileHead()
 
     "如果文件类型为python
     if &filetype == 'python'
-        " call setline(1, "\#!/usr/bin/env python")
-        " call append(1, "\# encoding: utf-8")
-        call setline(1, "\# -*- coding: utf-8 -*-")
+        call setline(1, "\#!/usr/bin/env python")
     endif
 
     normal G
     normal o
     normal o
 endfunc
+
+autocmd BufEnter * silent! lcd %:p:h
 
 
 " 设置可以高亮的关键字

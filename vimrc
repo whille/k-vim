@@ -34,8 +34,6 @@ syntax on
 " install bundles
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
-elseif filereadable(expand("~/.config/nvim/vimrc.bundles")) " neovim
-  source ~/.config/nvim/vimrc.bundles
 endif
 
 " ensure ftdetect et al work by including this after the bundle stuff
@@ -166,17 +164,12 @@ set ignorecase
 set smartcase
 
 " 代码折叠
+" :help folding
 set foldenable
-" 折叠方法
-" manual    手工折叠
 " indent    使用缩进表示折叠
-" expr      使用表达式定义折叠
-" syntax    使用语法定义折叠
-" diff      对没有更改的文本进行折叠
 " marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
 set foldmethod=indent
 set foldlevel=99
-" 代码折叠自定义快捷键 <leader>zz
 let g:FoldMethod = 0
 map <leader>zz :call ToggleFold()<cr>
 fun! ToggleFold()
@@ -217,8 +210,6 @@ set ttyfast
 
 " 00x增减数字时使用十进制
 set nrformats=
-
-nnoremap <C-n> :call NumberToggle()<cr>
 
 " 防止tmux下vim的背景色显示异常
 " Refer: http://sunaku.github.io/vim-256color-bce.html
@@ -426,15 +417,12 @@ noremap <right> :bn<CR>
 " tab切换
 map <leader>th :tabfirst<cr>
 map <leader>tl :tablast<cr>
-
-map <leader>tj :tabnext<cr>
-map <leader>tk :tabprev<cr>
 map <leader>tn :tabnext<cr>
 map <leader>tp :tabprev<cr>
 
-map <leader>te :tabedit<cr>
-map <leader>td :tabclose<cr>
-map <leader>tm :tabm<cr>
+" map <leader>te :tabedit<cr>
+" map <leader>td :tabclose<cr>
+" map <leader>tm :tabm<cr>
 
 " normal模式下切换到确切的tab
 noremap <leader>1 1gt
@@ -510,20 +498,6 @@ nnoremap <leader>q :q<CR>
 " Quickly save the current file
 nnoremap <leader>w :w<CR>
 
-" 交换 ' `, 使得可以快速使用'跳到marked位置
-nnoremap ' `
-nnoremap ` '
-
-" remap U to <C-r> for easier redo
-nnoremap U <C-r>
-
-" Quickly edit/reload the vimrc file
-" nmap <silent> <leader>ev :e $MYVIMRC<CR>
-" nmap <silent> <leader>sv :so $MYVIMRC<CR>
-" edit vimrc/zshrc and load vimrc bindings
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
-nnoremap <leader>ez :vsp ~/.zshrc<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
 
 "==========================================
 " FileType Settings  文件类型设置
@@ -538,7 +512,6 @@ autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2
 
 " disable showmatch when use > in php
 au BufWinEnter *.php set mps-=<:>
-
 
 
 " 保存python文件时删除多余空格
@@ -581,12 +554,6 @@ if has("autocmd")
   endif
 endif
 
-"==========================================
-" TEMP 设置, 尚未确定要不要
-"==========================================
-
-" beta
-" https://dougblack.io/words/a-good-vimrc.html
 set lazyredraw          " redraw only when we need to.
 
 
@@ -612,13 +579,11 @@ if has("gui_running")
 endif
 
 
-
 " theme主题
 set background=dark
 set t_Co=256
 
 colorscheme solarized
-" colorscheme molokai
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致

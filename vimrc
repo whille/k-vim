@@ -24,10 +24,6 @@
 " Initial Plugin 加载插件
 "==========================================
 
-" 修改leader键
-let mapleader = ','
-let g:mapleader = ','
-
 " 开启语法高亮
 syntax on
 
@@ -310,8 +306,6 @@ nnoremap gj j
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
 noremap <F1> <Esc>"
 
-" 为方便复制，用<F2>开启/关闭行号显示:
-nnoremap <F2> :set number!<CR>
 " F3 显示可打印字符开关
 nnoremap <F3> :set list! list?<CR>
 " F4 换行开关
@@ -375,9 +369,6 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 
-" 搜索相关
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
 " 进入搜索Use sane regexes"
 nnoremap / /\v
 vnoremap / /\v
@@ -403,38 +394,20 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 " tab/buffer相关
 
 " 切换前后buffer
-nnoremap [b :bprevious<cr>
-nnoremap ]b :bnext<cr>
 " 使用方向键切换buffer
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
 
-
 " tab 操作
-" http://vim.wikia.com/wiki/Alternative_tab_navigation
-" http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
-
-" tab切换
-map <leader>th :tabfirst<cr>
-map <leader>tl :tablast<cr>
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprev<cr>
-
-" map <leader>te :tabedit<cr>
-" map <leader>td :tabclose<cr>
-" map <leader>tm :tabm<cr>
-
 " normal模式下切换到确切的tab
 noremap <leader>1 1gt
 noremap <leader>2 2gt
 noremap <leader>3 3gt
-noremap <leader>4 4gt
 noremap <leader>0 :tablast<cr>
 
 " Toggles between the active and last active tab "
 " The first tab is always 1 "
 let g:last_active_tab = 1
-nnoremap <silent> <leader>tt :execute 'tabnext ' . g:last_active_tab<cr>
 autocmd TabLeave * let g:last_active_tab = tabpagenr()
 
 " 新建tab  Ctrl+t

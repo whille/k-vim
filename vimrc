@@ -178,6 +178,7 @@ fun! ToggleFold()
     endif
 endfun
 
+
 " 缩进配置
 " Smart indent
 set smartindent
@@ -304,10 +305,14 @@ nnoremap gj j
 
 " F1 废弃这个键,防止调出系统帮助
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
-noremap <F1> <Esc>"
+" noremap <F1> <Esc>"
+
+"为方便复制，用<F2>开启/关闭行号显示:
+nnoremap <F2> :set number!<CR>
 
 " F3 显示可打印字符开关
 nnoremap <F3> :set list! list?<CR>
+
 " F4 换行开关
 nnoremap <F4> :set wrap! wrap?<CR>
 
@@ -326,7 +331,6 @@ function! XTermPasteBegin()
   return ""
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
 
 
 " 分屏窗口移动, Smart way to move between windows
@@ -414,6 +418,7 @@ autocmd TabLeave * let g:last_active_tab = tabpagenr()
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
 
+nnoremap <S-t>     :tabnext<CR>
 
 " => 选中及操作改键
 
@@ -457,13 +462,6 @@ nnoremap <C-y> 2<C-y>
 "nmap t o<ESC>k
 "nmap T O<ESC>j
 
-" Quickly close the current window
-nnoremap <leader>q :q<CR>
-
-" Quickly save the current file
-nnoremap <leader>w :w<CR>
-
-
 "==========================================
 " FileType Settings  文件类型设置
 "==========================================
@@ -486,7 +484,7 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,java,go,php,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType sh,c,cpp,java,go,php,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -540,7 +538,6 @@ if has("gui_running")
     set showtabline=1
     set linespace=2
     set noimd
-    set t_Co=256
 endif
 
 

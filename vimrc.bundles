@@ -50,7 +50,7 @@ Plug 'Raimondi/delimitMate'
 
 " quick edit
 " 快速注释
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 " [count]<leader>cc
 " [count]<leader>cu
 
@@ -104,7 +104,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 
 Plug 'liuchengxu/vim-which-key'
-
+Plug 'majutsushi/tagbar'
 
 " vim-which-key {{{
     let g:mapleader = "\<Space>"
@@ -131,6 +131,8 @@ if count(g:bundle_groups, 'python')
     " 对import排序
     Plug 'fisadev/vim-isort'
     let g:vim_isort_map = '<C-i>'
+    "let g:ale_python_isort_executable = "/usr/local/bin/isort"
+    "let g:vim_isort_python_version = 'python3'
 endif
 
 if count(g:bundle_groups, 'json')
@@ -140,23 +142,38 @@ endif
 
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " LeaderF {{{
-    " don't show the help in normal mode
-    let g:Lf_HideHelp = 1
-    let g:Lf_UseCache = 0
-    let g:Lf_UseVersionControlTool = 0
-    let g:Lf_IgnoreCurrentBufferName = 1
+    " usage: https://retzzz.github.io/dc9af5aa/
     " popup mode
     let g:Lf_WindowPosition = 'popup'
     let g:Lf_PreviewInPopup = 1
+    let g:Lf_WindowHeight = 0.30
     let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
-    let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
-
-    noremap <F2> :LeaderfFunction!<cr>
-    let g:Lf_ShortcutF = "<leader>ff"
-    noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-    noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+    let g:Lf_PreviewResult = {
+        \ 'File': 0,
+        \ 'Buffer': 0,
+        \ 'Mru': 0,
+        \ 'Tag': 0,
+        \ 'BufTag': 1,
+        \ 'Function': 1,
+        \ 'Line': 1,
+        \ 'Colorscheme': 0,
+        \ 'Rg': 0,
+        \ 'Gtags': 0
+        \}
+    let g:Lf_WorkingDirectoryMode = 'Ac'
+    let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
+    let g:Lf_StlColorscheme = 'powerline'
+    let g:Lf_WildIgnore = {
+            \ 'dir': ['.svn','.git','.hg'],
+            \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]', '*.log']
+            \}
+"     let g:Lf_ShortcutF = "<leader>ff"
     noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
     noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+    noremap <leader>fm :LeaderfMru<cr>
+    noremap <leader>ff :LeaderfFunction!<cr>
+   " nnoremap <F9> :Leaderf! function --right<cr>
+    noremap <leader>fb :LeaderfBufTagAll<cr>
 
     " brew install rg
     noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
@@ -164,18 +181,21 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     " search visually selected text literally
     xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
     noremap go :<C-U>Leaderf! rg --recall<CR>
+    noremap <leader>fn :<C-U><C-R>=printf("Leaderf rg --next")<CR><CR>
 
     " should use `Leaderf gtags --update` first
     let g:Lf_GtagsAutoGenerate = 0
     let g:Lf_Gtagslabel = 'native-pygments'
     noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-    noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+    noremap <F1> :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
     noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
-    noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
     noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+    noremap <leader>fu :<C-U><C-R>=printf("Leaderf gtags --update")<CR><CR>
 " }}}
 
 " Add plugins to &runtimepath
+"
+
 call plug#end()
 
 
@@ -187,6 +207,7 @@ if has_key(g:plugs, 'ale')
     " npm install -g eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
     let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
     let g:ale_python_flake8_executable = 'python3'   " or 'python' for Python 2                                          | 20             host
+    let g:syntastic_python_python_exec = 'python3'
     let g:ale_python_flake8_options = '-m flake8'
     " Check Python files with flake8 and pylint.
     " set in ~/.config/flake8
@@ -301,15 +322,7 @@ endif
 " closetag {{{
     let g:closetag_html_style=1
 " }}}
-
-" ################### 快速编码 ###################
-
-" nerdcommenter {{{
-    let g:NERDSpaceDelims=1
-    let g:NERDAltDelims_python = 1
-    let g:NERDDefaultAlign= 0
-" }}}
-
+"
 " ################### 功能相关 ###################
 "
 " gundo {{{
@@ -426,6 +439,14 @@ endif
 
 " json {{{
     let g:vim_json_syntax_conceal = 0
+" }}}
+
+
+" tagbar {{{
+    nmap <F9> :TagbarToggle<CR>
+    let g:tagbar_autofocus = 1
+    let g:tagbar_autoshowtag = 1
+    let g:tagbar_show_visibility = 1
 " }}}
 
 "------------------------------------------- end of configs --------------------------------------------

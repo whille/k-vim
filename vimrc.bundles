@@ -34,11 +34,6 @@ else
     Plug 'dense-analysis/ale'
 endif
 
-" Group dependencies, vim-snippets depends on ultisnips
-" 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
-" Snippets are separated from the engine. Add this if you want them:
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
 " 自动补全单引号，双引号等
 Plug 'Raimondi/delimitMate'
 
@@ -98,11 +93,15 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 
 Plug 'majutsushi/tagbar'
-"Plug 'Exafunction/codeium.vim'
-Plug 'tom-doerr/vim_codex'
 
-"Plug 'github/copilot.vim'
+Plug 'whille/vim-chatgpt'
+    let g:chat_gpt_max_tokens=2000
+    let g:chat_gpt_session_mode=1
+    let g:chat_gpt_temperature = 0
+    let g:chat_gpt_lang = 'in Chinese, '
     "let g:copilot_proxy = 'localhost:1087'
+    
+"Plug 'github/copilot.vim'
     "let g:copilot_proxy_strict_ssl = v:false
 
 Plug 'liuchengxu/vim-which-key'
@@ -182,7 +181,7 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     noremap <leader>fn :<C-U><C-R>=printf("Leaderf rg --next")<CR><CR>
 
     " should use `Leaderf gtags --update` first
-    let g:Lf_GtagsAutoGenerate = 0
+    let g:Lf_GtagsAutoGenerate = 1
     let g:Lf_Gtagslabel = 'native-pygments'
     noremap <leader>fr :<C-U><C-R>=printf("Leaderf gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
     noremap <F1> :<C-U><C-R>=printf("Leaderf gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
@@ -201,25 +200,12 @@ call plug#end()
 
 " ale {{{
 if has_key(g:plugs, 'ale')
-    " npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard
-    " npm install -g eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
-    let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
-    let g:ale_fixers = {'javascript': ['eslint']}
-    let g:ale_python_flake8_executable = 'python3'   " or 'python' for Python 2                                          | 20             host
-    let g:syntastic_python_python_exec = 'python3'
-    let g:ale_python_flake8_options = '-m flake8 --config ~/.flake8'
-    " Check Python files with flake8 and pylint.
-    " set in ~/.flake8
+    let g:ale_linters = {'python': ['flake8'], 'javascript': ['prettier', 'eslint']}
+    let g:ale_fixers = {'javascript': ['prettier', 'eslint']}
     let g:ale_fix_on_save = 1
-    let g:ale_sign_error = '>>'
-    let g:ale_sign_warning = '>'
-
-    let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-    nnoremap <silent> <Leader>ec :ALEToggle<CR>
+    let g:ale_python_flake8_executable = 'python3'
+    let g:ale_python_flake8_options = '-m flake8 --config ~/.flake8'
+    "nnoremap <silent> <Leader>ec :ALEToggle<CR>
 
     " troggle quickfix list
     function! ToggleErrors()
@@ -232,9 +218,9 @@ if has_key(g:plugs, 'ale')
     endfunction
     nnoremap <Leader>s :call ToggleErrors()<cr>
 
-    let g:ale_set_highlights = 1
-    highlight clear ALEErrorSign
-    highlight clear ALEWarningSign
+    "let g:ale_set_highlights = 1
+    "highlight clear ALEErrorSign
+    "highlight clear ALEWarningSign
 endif
 
 " }}}

@@ -477,6 +477,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd FileType sh,c,cpp,java,go,php,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
+autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
 
 " 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
@@ -551,3 +552,4 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
+

@@ -375,8 +375,6 @@ nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
 
-" 去掉搜索高亮
-noremap <silent><leader>/ :nohls<CR>
 
 " switch # *
 nnoremap # *
@@ -392,13 +390,6 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 " 使用方向键切换buffer
 noremap <left> :bp<CR>
 noremap <right> :bn<CR>
-
-" tab 操作
-" normal模式下切换到确切的tab
-noremap <leader>1 1gt
-noremap <leader>2 2gt
-noremap <leader>3 3gt
-noremap <leader>0 :tablast<cr>
 
 " Toggles between the active and last active tab "
 " The first tab is always 1 "

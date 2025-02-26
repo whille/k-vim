@@ -176,12 +176,11 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
     noremap <leader>fm :LeaderfMru<cr>
     noremap <leader>ff :LeaderfFunction!<cr>
-   " nnoremap <F9> :Leaderf! function --right<cr>
     noremap <leader>fb :LeaderfBufTagAll<cr>
 
     " brew install rg
-    noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
-    noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+    noremap <leader>ef :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+    noremap <leader>eb :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
     " search visually selected text literally
     xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
     noremap go :<C-U>Leaderf! rg --recall<CR>
@@ -198,36 +197,30 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " }}}
 
 Plug 'skywind3000/vim-dict'
-
 Plug 'skywind3000/vim-auto-popmenu'
 " vim-auto-popmenu {{{
-
     " 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
-    let g:apc_enable = 1
     "let g:apc_enable_ft = {'text':1, 'markdown':1, 'python':1}
     let g:apc_enable_ft = {'text':1, 'markdown':1}
-    let g:apc_cr_confirm = 1
-    let g:apc_min_length = 2
-
+    " source for dictionary, current or other loaded buffers, see ':help cpt'
+    "let g:apc_min_length = 2
     " 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
     set cpt=.,k,w,b
-
     " 不要自动选中第一个选项。
     set completeopt=menu,menuone,noselect
-
     " 禁止在下方显示一些啰嗦的提示
     set shortmess+=c
 " }}}
 
 " Add plugins to &runtimepath
-"
-Plug 'iamcco/markdown-preview.nvim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " markdown-preview {{{
     nmap <C-s> <Plug>MarkdownPreview
     "nmap <M-s> <Plug>MarkdownPreviewStop
     "nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}}
 
+Plug 'mzlogin/vim-markdown-toc'
 call plug#end()
 
 
@@ -235,8 +228,8 @@ call plug#end()
 
 " ale {{{
 if has_key(g:plugs, 'ale')
-    let g:ale_linters = {'python': ['flake8'], 'javascript': ['prettier', 'eslint']}
-    let g:ale_fixers = {'javascript': ['prettier', 'eslint']}
+    let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
+    let g:ale_fixers = {'javascript': ['eslint']}
     let g:ale_fix_on_save = 1
     let g:ale_python_flake8_executable = 'python3'
     let g:ale_python_flake8_options = '-m flake8 --config ~/.flake8'

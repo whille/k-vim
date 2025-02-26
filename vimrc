@@ -180,7 +180,6 @@ endfun
 
 
 " 缩进配置
-" Smart indent
 set smartindent
 " 打开自动缩进
 " never add copyindent, case error   " copy the previous indentation on autoindenting

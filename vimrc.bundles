@@ -34,12 +34,6 @@ else
     Plug 'dense-analysis/ale'
 endif
 
-" Group dependencies, vim-snippets depends on ultisnips
-" 代码片段快速插入 (snippets中,是代码片段资源,需要学习)
-" Snippets are separated from the engine. Add this if you want them:
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-
 " 自动补全单引号，双引号等
 Plug 'Raimondi/delimitMate'
 
@@ -108,7 +102,7 @@ Plug 'whille/vim-chatgpt'
     let g:chat_gpt_lang = 'Chinese'
     "let g:copilot_proxy = 'localhost:1087'
     
-"Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
     "let g:copilot_proxy_strict_ssl = v:false
 
 Plug 'liuchengxu/vim-which-key'
@@ -196,21 +190,7 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     noremap <leader>fd :<C-U><C-R>=printf("Leaderf gtags --remove")<CR><CR>
 " }}}
 
-Plug 'skywind3000/vim-dict'
-Plug 'skywind3000/vim-auto-popmenu'
-" vim-auto-popmenu {{{
-    " 设定需要生效的文件类型，如果是 "*" 的话，代表所有类型
-    "let g:apc_enable_ft = {'text':1, 'markdown':1, 'python':1}
-    let g:apc_enable_ft = {'text':1, 'markdown':1}
-    " source for dictionary, current or other loaded buffers, see ':help cpt'
-    "let g:apc_min_length = 2
-    " 设定从字典文件以及当前打开的文件里收集补全单词，详情看 ':help cpt'
-    set cpt=.,k,w,b
-    " 不要自动选中第一个选项。
-    set completeopt=menu,menuone,noselect
-    " 禁止在下方显示一些啰嗦的提示
-    set shortmess+=c
-" }}}
+
 
 " Add plugins to &runtimepath
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -252,40 +232,6 @@ if has_key(g:plugs, 'ale')
 endif
 
 " }}}
-
-" ################### 自动补全 ###################
-"
-" ultisnips {{{
-    let g:UltiSnipsExpandTrigger       = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-    let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
-    let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-    " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
-    " 进入对应filetype的snippets进行编辑
-    map <leader>us :UltiSnipsEdit<CR>
-
-    " ctrl+j/k 进行选择
-    func! g:JInYCM()
-        if pumvisible()
-            return "\<C-n>"
-        else
-            return "\<c-j>"
-        endif
-    endfunction
-
-    func! g:KInYCM()
-        if pumvisible()
-            return "\<C-p>"
-        else
-            return "\<c-k>"
-        endif
-    endfunction
-    inoremap <c-j> <c-r>=g:JInYCM()<cr>
-    au BufEnter,BufRead * exec "inoremap <silent> " . g:UltiSnipsJumpBackwordTrigger . " <C-R>=g:KInYCM()<cr>"
-    let g:UltiSnipsJumpBackwordTrigger = "<c-k>"
-" }}}
-
 
 " delimitMate {{{
     " for python docstring ",优化输入

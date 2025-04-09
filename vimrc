@@ -1,29 +1,3 @@
-"==========================================
-" Author:  wklken
-" Version: 9.1
-" Email: wklken@yeah.net
-" BlogPost: http://www.wklken.me
-" ReadMe: README.md
-" Donation: http://www.wklken.me/pages/donation.html
-" Last_modify: 2015-12-15
-" Sections:
-"       -> Initial Plugin 加载插件
-"       -> General Settings 基础设置
-"       -> Display Settings 展示/排版等界面格式设置
-"       -> FileEncode Settings 文件编码设置
-"       -> Others 其它配置
-"       -> HotKey Settings  自定义快捷键
-"       -> FileType Settings  针对文件类型的设置
-"       -> Theme Settings  主题设置
-"
-"       -> 插件配置和具体设置在vimrc.bundles中
-" Note: Don't put anything in your .vimrc you don't understand!
-"==========================================
-
-"==========================================
-" Initial Plugin 加载插件
-"==========================================
-
 " 开启语法高亮
 syntax on
 
@@ -58,30 +32,18 @@ filetype plugin indent on
 set autoread
 " 启动的时候不显示那个援助乌干达儿童的提示
 set shortmess=atI
-
-" 备份,到另一个位置. 防止误删, 目前是取消备份
-"set backup
-"set backupext=.bak
-"set backupdir=/tmp/vimbk/
-
-" 取消备份。 视情况自己改
 set nobackup
 " 关闭交换文件
 set noswapfile
-
-
 set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git,*.beam
-
 " 突出显示当前列
-" set nocursorcolumn
+" set cursorcolumn
 " 突出显示当前行
 set cursorline
-
 
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
 " 好处：误删什么的，如果以前屏幕打开，可以找回
 set t_ti= t_te=
-
 
 " 鼠标暂不启用, 键盘党....
 set mouse-=a
@@ -119,15 +81,10 @@ set whichwrap+=<,>,h,l
 
 " 显示当前的行号列号
 set ruler
-" 在状态栏显示正在输入的命令
 set showcmd
-" 左下角显示当前vim模式
 set showmode
-
 " 在上下移动光标时，光标的上方或下方至少会保留显示的行数
 set scrolloff=7
-
-" set winwidth=79
 
 " 命令行（在状态行下）的高度，默认为1，这里是2
 set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
@@ -147,7 +104,6 @@ set linebreak
 set showmatch
 " How many tenths of a second to blink when matching brackets
 set matchtime=2
-
 
 " 设置文内智能搜索提示
 " 高亮search命中的文本
@@ -186,16 +142,10 @@ set smartindent
 set autoindent
 
 " tab相关变更
-" 设置Tab键的宽度        [等同的空格个数]
 set tabstop=4
-" 每一次缩进对应的空格数
 set shiftwidth=4
-" 按退格键时可以一次删掉 4 个空格
 set softtabstop=4
-" insert tabs on the start of a line according to shiftwidth, not tabstop 按退格键时可以一次删掉 4 个空格
 set smarttab
-" 将Tab自动转化成空格[需要输入真正的Tab键时，使用 Ctrl+V + Tab]
-set expandtab
 " 缩进时，取整 use multiple of shiftwidth when indenting with '<' and '>'
 set shiftround
 
@@ -210,24 +160,16 @@ set nrformats=
 "==========================================
 " FileEncode Settings 文件编码,格式
 "==========================================
-" 设置新文件的编码为 UTF-8
 set encoding=utf-8
 " 自动判断编码时，依次尝试以下编码：
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set helplang=cn
-"set langmenu=zh_CN.UTF-8
-"set enc=2byte-gb18030
-" 下面这句只影响普通模式 (非图形界面) 下的 Vim
 set termencoding=utf-8
-
-" Use Unix as the standard file type
 set ffs=unix,dos,mac
-
 " 如遇Unicode值大于255的文本，不必等到空格再折行
 set formatoptions+=m
 " 合并两行中文时，不在中间加空格
 set formatoptions+=B
-
 
 "==========================================
 " others 其它设置
@@ -275,15 +217,6 @@ endif
 "==========================================
 " HotKey Settings  自定义快捷键设置
 "==========================================
-
-" 主要按键重定义
-
-" 关闭方向键, 强迫自己用 hjkl
-map <Left> <Nop>
-map <Right> <Nop>
-map <Up> <Nop>
-map <Down> <Nop>
-
 "Treat long lines as break lines (useful when moving around in them)
 "se swap之后，同物理行上线直接跳
 nnoremap k gk
@@ -299,15 +232,10 @@ nnoremap gj j
 
 "为方便复制，用<F2>开启/关闭行号显示:
 nnoremap <F2> :set number!<CR>
-
 " F3 显示可打印字符开关
 nnoremap <F3> :set list! list?<CR>
-
 " F4 换行开关
 nnoremap <F4> :set wrap! wrap?<CR>
-
-" F6 语法开关，关闭语法可以加快大文件的展示
-nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " disbale paste mode when leaving insert mode
 au InsertLeave * set nopaste
@@ -322,35 +250,11 @@ function! XTermPasteBegin()
 endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
-
 " 分屏窗口移动, Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-
-" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
-" Zoom / Restore window.
-function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <Leader>z :ZoomToggle<CR>
-
-
-" Go to home and end using capitalized directions
-noremap H ^
-noremap L $
-
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
 nnoremap ; :
@@ -361,7 +265,6 @@ cnoremap <C-j> <t_kd>
 cnoremap <C-k> <t_ku>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-
 
 " 进入搜索Use sane regexes"
 nnoremap / /\v
@@ -382,9 +285,7 @@ nnoremap * #
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 
-
 " tab/buffer相关
-
 " 切换前后buffer
 " 使用方向键切换buffer
 noremap <left> :bp<CR>
@@ -429,9 +330,6 @@ nnoremap <leader>v V`}
 
 " w!! to sudo & write a file
 cmap w!! w !sudo tee >/dev/null %
-
-" kj 替换 Esc
-inoremap kj <Esc>
 
 " 滚动Speed up scrolling of the viewport slightly
 nnoremap <C-e> 2<C-e>
@@ -489,7 +387,6 @@ endfunc
 
 autocmd BufEnter * silent! lcd %:p:h
 
-
 " 设置可以高亮的关键字
 if has("autocmd")
   " Highlight TODO, FIXME, NOTE, etc.
@@ -506,27 +403,9 @@ set lazyredraw          " redraw only when we need to.
 " Theme Settings  主题设置
 "==========================================
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guifont=Monaco:h14
-    if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
-    endif
-    set guioptions-=T
-    set guioptions+=e
-    set guioptions-=r
-    set guioptions-=L
-    set guitablabel=%M\ %t
-    set showtabline=1
-    set linespace=2
-    set noimd
-endif
-
-
 " theme主题
 set background=dark
 colorscheme solarized
-
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -542,4 +421,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-

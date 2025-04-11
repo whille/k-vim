@@ -48,14 +48,20 @@ Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
 " 替换: cs"' # change surrounding
 " 添加: csw" # cs word
 " 添加-整行: yss" #you surround
-"
+
+" 快速赋值语句对齐
+Plug 'vim-scripts/matchit.zip'
+
 Plug 'kshenoy/vim-signature'
+
 " git
 Plug 'tpope/vim-fugitive'
 
 " view
+" 状态栏增强展示
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" 括号显示增强
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'altercation/vim-colors-solarized'
 
@@ -95,8 +101,13 @@ if count(g:bundle_groups, 'python')
     let g:vim_isort_map = '<C-i>'
 endif
 
+if count(g:bundle_groups, 'json')
+    Plug 'elzr/vim-json', {'for': 'json'}
+endif
+
 let g:mapleader = "\<Space>"
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }  " 安装时编译提升性能
+let g:maplocalleader = ","
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " LeaderF {{{
     " usage: https://retzzz.github.io/dc9af5aa/
     let g:Lf_WindowPosition = 'popup'
@@ -118,23 +129,27 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }  " 安装时编�
     let g:Lf_WorkingDirectoryMode = 'Ac'
     let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
     let g:Lf_StlColorscheme = 'powerline'
-    let g:Lf_WildIgnore = {
-		\ 'dir': ['.svn','.git','.hg'],
-		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]', '*.log']
-    \}
-"     let g:Lf_ShortcutF = "<leader>ff"
+	let g:Lf_WildIgnore = {
+		\ 'dir': ['.git', '.svn', '.hg', 'node_modules', '__pycache__'],
+        \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]', '*.log']
+    \ }
     noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
-    noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
     noremap <leader>fm :LeaderfMru<cr>
     noremap <leader>ff :LeaderfFunction!<cr>
     noremap <leader>fb :LeaderfBufTagAll<cr>
 
     " brew install rg
-    noremap <leader>eb :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
     noremap <leader>ef :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
     " search visually selected text literally
     xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
     noremap go :<C-U>Leaderf! rg --recall<CR>
+    noremap <leader>fn :<C-U><C-R>=printf("Leaderf rg --next")<CR><CR>
+    let g:Lf_GtagsAutoGenerate = 1
+    let g:Lf_Gtagslabel = 'native-pygments'
+    noremap <leader>fr :<C-U><C-R>=printf("Leaderf gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+    noremap <F1> :<C-U><C-R>=printf("Leaderf gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+    noremap <leader>fu :<C-U><C-R>=printf("Leaderf gtags --update")<CR><CR>
+    noremap <leader>fd :<C-U><C-R>=printf("Leaderf gtags --remove")<CR><CR>
 " }}}
 
 
@@ -273,6 +288,10 @@ endif
     let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java', 'python'] }
 " }}}
 
+
+" json {{{
+    let g:vim_json_syntax_conceal = 0
+" }}}
 
 " tagbar {{{
     nmap <F9> :TagbarToggle<CR>

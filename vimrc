@@ -297,10 +297,9 @@ let g:last_active_tab = 1
 autocmd TabLeave * let g:last_active_tab = tabpagenr()
 
 " 新建tab  Ctrl+t
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-t>     <Esc>:tabnew<CR>
-
-nnoremap <S-t>     :tabnext<CR>
+nnoremap <C-t> :tabnew<CR>
+inoremap <C-t> <Esc>:tabnew<CR>
+nnoremap <C-n> :tabnext<CR>
 
 " => 选中及操作改键
 
@@ -347,7 +346,7 @@ nnoremap <C-y> 2<C-y>
 
 " 具体编辑文件类型的一般设置，比如不要 tab 等
 autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
-autocmd FileType ruby,set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab autoindent
 autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd
 autocmd BufRead,BufNewFile *.part set filetype=html
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
@@ -375,7 +374,6 @@ function! AutoSetFileHead()
         call setline(1, "\#!/bin/bash")
     endif
 
-    "如果文件类型为python
     if &filetype == 'python'
         call setline(1, "\#!/usr/bin/env python")
     endif
@@ -385,7 +383,7 @@ function! AutoSetFileHead()
     normal o
 endfunc
 
-autocmd BufEnter * silent! lcd %:p:h
+"autocmd BufEnter * silent! lcd %:p:h
 
 " 设置可以高亮的关键字
 if has("autocmd")

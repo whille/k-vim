@@ -1,20 +1,26 @@
 syntax on
+
+" install bundles
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
 
+" ensure ftdetect et al work by including this after the bundle stuff
 filetype plugin indent on
 
 "==========================================
 " General Settings 基础设置
 "==========================================
 
+
 set history=1000
+
 set autoread
 set shortmess=atI
 set nobackup
 set noswapfile
 set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git,*.beam
+
 " 统一 grep 体验：让 :grep / quickfix 默认走 ripgrep（与 LeaderF rg 一致）
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --smart-case
@@ -23,7 +29,16 @@ endif
 " 突出显示当前列
 " set cursorcolumn
 set cursorline
+
+" 鼠标暂不启用, 键盘党....
 set mouse-=a
+" 启用鼠标
+" set mouse=a
+" Hide the mouse cursor while typing
+" set mousehide
+
+
+" 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 set selection=inclusive
 set selectmode=mouse,key
 set title
@@ -31,8 +46,10 @@ set novisualbell
 set noerrorbells
 set t_vb=
 set tm=500
+
 " Remember info about open buffers on close
 set viminfo^=%
+" For regular expressions turn magic on
 set magic
 
 " Configure backspace so it acts as it should act
@@ -326,7 +343,7 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 augroup kvim_strip_trailing_ws
   autocmd!
-  autocmd BufWritePre *.sh,*.c,*.cpp,*.java,*.php,*.puppet,*.py,*.rs,*.twig,*.xml,*.yml,*.yaml,*.pl call <SID>StripTrailingWhitespaces()
+  autocmd BufWritePre *.sh,*.c,*.cpp,*.java,*.php,*.pp,*.py,*.rs,*.twig,*.xml,*.yml,*.yaml,*.pl call <SID>StripTrailingWhitespaces()
 augroup END
 
 " 定义函数AutoSetFileHead，自动插入文件头
@@ -358,6 +375,7 @@ if has("autocmd")
 endif
 
 set lazyredraw          " redraw only when we need to.
+
 
 "==========================================
 " Theme Settings  主题设置

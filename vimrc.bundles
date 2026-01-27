@@ -1,6 +1,4 @@
 "------------------------------------------- begin of configs --------------------------------------------
-
-" ################### 包依赖 #####################
 " package dependence:  (universal-)ctags, rg(ripgrep)
 " python dependence:   ruff
 
@@ -14,11 +12,6 @@ if !exists('g:bundle_groups')
     let g:bundle_groups=['python', 'markdown', 'html', 'css']
 endif
 
-" ----------------------------------------------------------------------------
-" 使用 vim-plug 管理插件
-" vim plugin bundle control, command model
-" ----------------------------------------------------------------------------
-
 call plug#begin('~/.vim/bundle')
 
 " 移动光标到插件名上, 使用'#'快速跳转到每个插件的配置处
@@ -30,7 +23,6 @@ else
     Plug 'dense-analysis/ale'
 endif
 
-" 自动补全单引号，双引号等
 Plug 'Raimondi/delimitMate'
 
 " quick edit
@@ -41,30 +33,24 @@ Plug 'preservim/nerdcommenter'
 
 " 快速加入修改环绕字符
 Plug 'tpope/vim-surround'
-
-" 使用
-" 删除": ds"
-" 替换: cs"' # change surrounding
-" 添加: csw" # cs word
-" 添加-整行: yss" #you surround
+" 基本使用:
+	" 删除": ds"
+	" 替换: cs"' # change surrounding
+	" 添加: csw" # cs word
+	" 添加-整行: yss" #you surround
 
 Plug 'kshenoy/vim-signature'
-
 " git
 Plug 'tpope/vim-fugitive'
 
 " view
-" 状态栏增强展示
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " 括号显示增强
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'altercation/vim-colors-solarized'
-
 " file navigation
-" nerdtree nerdtreetabs
 Plug 'preservim/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
-
 Plug 'preservim/tagbar'
 
 Plug 'github/copilot.vim'
@@ -84,7 +70,10 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " LeaderF {{{
     " 在非 TTY 场景（如批量/脚本/调试启动）下，LeaderF 的 MRU 记录可能触发 <afile> 相关错误；
     " 正常交互式 Vim 不受影响。
-    if !has('ttyin') || !has('ttyout')
+    " 注意：GUI Vim 可能没有 ttyin/ttyout，但 MRU 仍应可用；
+    " Neovim 的 has() feature 列表也不同，因此这里显式排除。
+    " 仅在“真正无终端输入/输出”(ttyin/ttyout 都不可用)的批处理场景禁用 MRU
+    if !has('nvim') && !has('gui_running') && !has('ttyin') && !has('ttyout')
         let g:Lf_MruEnable = 0
     endif
     let g:Lf_WindowPosition = 'popup'
@@ -228,7 +217,6 @@ endif
     let g:NERDTreeMapOpenSplit = 's'
     let g:NERDTreeMapOpenVSplit = 'v'
 
-
     " nerdtreetabs
     map <Leader>n <plug>NERDTreeTabsToggle<CR>
     nmap <F8> :NERDTreeTabsToggle<CR>
@@ -263,5 +251,4 @@ endif
     let g:tagbar_autoshowtag = 1
     let g:tagbar_show_visibility = 1
 " }}}
-
 "------------------------------------------- end of configs --------------------------------------------

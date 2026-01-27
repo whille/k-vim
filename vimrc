@@ -1,74 +1,38 @@
-" 开启语法高亮
 syntax on
-
-" install bundles
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
 
-" ensure ftdetect et al work by including this after the bundle stuff
 filetype plugin indent on
-
-" NOTE: 以下配置有详细说明，一些特性不喜欢可以直接注解掉
 
 "==========================================
 " General Settings 基础设置
 "==========================================
 
-
-" history存储容量
-set history=2000
-
-" 检测文件类型
-filetype on
-" 针对不同的文件类型采用不同的缩进格式
-filetype indent on
-" 允许插件
-filetype plugin on
-" 启动自动补全
-filetype plugin indent on
-
-" 文件修改之后自动载入
+set history=1000
 set autoread
-" 启动的时候不显示那个援助乌干达儿童的提示
 set shortmess=atI
 set nobackup
-" 关闭交换文件
 set noswapfile
 set wildignore=*.o,*~,*.pyc,*.class,*.swp,*.bak,*.svn,*.git,*.beam
+" 统一 grep 体验：让 :grep / quickfix 默认走 ripgrep（与 LeaderF rg 一致）
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case
+  set grepformat=%f:%l:%c:%m
+endif
 " 突出显示当前列
 " set cursorcolumn
-" 突出显示当前行
 set cursorline
-
-" 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
-" 好处：误删什么的，如果以前屏幕打开，可以找回
-set t_ti= t_te=
-
-" 鼠标暂不启用, 键盘党....
 set mouse-=a
-" 启用鼠标
-" set mouse=a
-" Hide the mouse cursor while typing
-" set mousehide
-
-
-" 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 set selection=inclusive
 set selectmode=mouse,key
-
-" change the terminal's title
 set title
-" 去掉输入错误的提示声音
 set novisualbell
 set noerrorbells
 set t_vb=
 set tm=500
-
 " Remember info about open buffers on close
 set viminfo^=%
-
-" For regular expressions turn magic on
 set magic
 
 " Configure backspace so it acts as it should act
@@ -78,8 +42,6 @@ set whichwrap+=<,>,h,l
 "==========================================
 " Display Settings 展示/排版等界面格式设置
 "==========================================
-
-" 显示当前的行号列号
 set ruler
 set showcmd
 set showmode
@@ -174,10 +136,11 @@ set formatoptions+=B
 "==========================================
 " others 其它设置
 "==========================================
-" vimrc文件修改之后自动加载, windows
-autocmd! bufwritepost _vimrc source %
 " vimrc文件修改之后自动加载, linux
-autocmd! bufwritepost .vimrc source %
+augroup kvim_reload_vimrc
+  autocmd!
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END
 
 " 自动补全配置
 " 让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
@@ -288,8 +251,8 @@ autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
 " tab/buffer相关
 " 切换前后buffer
 " 使用方向键切换buffer
-noremap <left> :bp<CR>
-noremap <right> :bn<CR>
+nnoremap <left> :bp<CR>
+nnoremap <right> :bn<CR>
 
 " Toggles between the active and last active tab "
 " The first tab is always 1 "
@@ -349,7 +312,6 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai
 autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab autoindent
 autocmd BufRead,BufNewFile *.md,*.mkd,*.markdown set filetype=markdown.mkd
 autocmd BufRead,BufNewFile *.part set filetype=html
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai
 
 " disable showmatch when use > in php
 au BufWinEnter *.php set mps-=<:>
@@ -362,9 +324,10 @@ fun! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType sh,c,cpp,java,go,php,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
-
-autocmd FileType javascript setlocal equalprg=js-beautify\ --stdin
+augroup kvim_strip_trailing_ws
+  autocmd!
+  autocmd BufWritePre *.sh,*.c,*.cpp,*.java,*.php,*.puppet,*.py,*.rs,*.twig,*.xml,*.yml,*.yaml,*.pl call <SID>StripTrailingWhitespaces()
+augroup END
 
 " 定义函数AutoSetFileHead，自动插入文件头
 autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
@@ -395,7 +358,6 @@ if has("autocmd")
 endif
 
 set lazyredraw          " redraw only when we need to.
-
 
 "==========================================
 " Theme Settings  主题设置

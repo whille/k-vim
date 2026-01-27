@@ -1,8 +1,8 @@
 "------------------------------------------- begin of configs --------------------------------------------
 
 " ################### 包依赖 #####################
-" package dependence:  ctags, ag(he_silver_searcher)
-" python dependence:   pep8, pyflake
+" package dependence:  (universal-)ctags, rg(ripgrep)
+" python dependence:   ruff
 
 " 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
 set nocompatible
@@ -11,7 +11,7 @@ filetype off " required! turn off
 " ################### 插件管理 ###################
 " inspired by spf13, 自定义需要的插件集合
 if !exists('g:bundle_groups')
-    let g:bundle_groups=['python', 'markdown', 'html', 'css', 'golang']
+    let g:bundle_groups=['python', 'markdown', 'html', 'css']
 endif
 
 " ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ call plug#begin('~/.vim/bundle')
 
 " syntastic
 if v:version < 800
-    Plug 'scrooloose/syntastic'
+    Plug 'vim-syntastic/syntastic'
 else
     Plug 'dense-analysis/ale'
 endif
@@ -63,37 +63,15 @@ Plug 'altercation/vim-colors-solarized'
 
 " file navigation
 " nerdtree nerdtreetabs
-Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
+Plug 'preservim/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 
-Plug 'majutsushi/tagbar'
+Plug 'preservim/tagbar'
 
-Plug 'CoderCookE/vim-chatgpt'
-    let g:chat_gpt_temperature = 0
-    let g:chat_gpt_lang = 'Chinese'
-    let g:chat_gpt_split_direction = 'vertical'
-    let g:chat_gpt_model = 'gpt-4.1'
-    let g:split_ratio = 2
-    
 Plug 'github/copilot.vim'
     "let g:copilot_proxy_strict_ssl = v:false
-    
-if count(g:bundle_groups, 'golang')
-    " 1. vim a.go
-    " 2. :GoInstallBinaries
-    " vimgo  https://github.com/fatih/vim-go
-    Plug 'fatih/vim-go', {'for': 'go'}
-endif
-
 
 if count(g:bundle_groups, 'python')
-    " for python.vim syntax highlight
     Plug 'hdima/python-syntax'
-    " use :Yapf to format file
-    Plug 'mindriot101/vim-yapf'
-    let g:yapf_style = "google"
-    " 对import排序
-    Plug 'fisadev/vim-isort'
-    let g:vim_isort_map = '<C-i>'
 endif
 
 if count(g:bundle_groups, 'json')
@@ -104,7 +82,11 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = ","
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " LeaderF {{{
-    " usage: https://retzzz.github.io/dc9af5aa/
+    " 在非 TTY 场景（如批量/脚本/调试启动）下，LeaderF 的 MRU 记录可能触发 <afile> 相关错误；
+    " 正常交互式 Vim 不受影响。
+    if !has('ttyin') || !has('ttyout')
+        let g:Lf_MruEnable = 0
+    endif
     let g:Lf_WindowPosition = 'popup'
     let g:Lf_PreviewInPopup = 1
     let g:Lf_WindowHeight = 0.3
@@ -169,11 +151,9 @@ call plug#end()
 
 " ale {{{
 if has_key(g:plugs, 'ale')
-    let g:ale_linters = {'python': ['flake8'], 'javascript': ['eslint']}
-    let g:ale_fixers = {'javascript': ['eslint']}
+    let g:ale_linters = {'python': ['ruff']}
+    let g:ale_fixers = {'python': ['ruff', 'ruff_format']}
     let g:ale_fix_on_save = 1
-    let g:ale_python_flake8_executable = 'python3'
-    let g:ale_python_flake8_options = '-m flake8 --config ~/.flake8'
     "nnoremap <silent> <Leader>ec :ALEToggle<CR>
 
     " troggle quickfix list
@@ -270,21 +250,6 @@ endif
 
 " piv {{{
     let g:DisableAutoPHPFolding = 1
-" }}}
-
-
-" vimgo {{{
-    let g:go_highlight_functions = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_structs = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_build_constraints = 1
-
-    let g:go_fmt_fail_silently = 1
-    " format with goimports instead of gofmt
-    let g:go_fmt_command = "goimports"
-    let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-    let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go', 'java', 'python'] }
 " }}}
 
 

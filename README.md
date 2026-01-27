@@ -71,27 +71,12 @@ brew install the_silver_searcher
 ##### 2.2 使用Python
 
 ```
-sudo pip install flake8 yapf
+python3 -m pip install -U ruff
 ```
 
-##### 2.3 如果使用Javascript(不需要的跳过)
+##### 2.3 Javascript
 
-```
-# 安装jshint和jslint,用于javascript语法检查
-# 需要nodejs支持,各个系统安装见文档 https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
-
-# ubuntu
-sudo apt-get install nodejs npm
-sudo npm install -g jslint
-sudo npm install jshint -g
-sudo npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
-
-# mac
-brew install node
-npm install jshint -g
-npm install jslint -g
-npm install -g eslint eslint-plugin-standard eslint-plugin-promise eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-html babel-eslint
-```
+当前配置已默认移除 Javascript 相关支持（eslint / js-beautify 等），如需恢复可自行扩展。
 
 
 ### 3. 安装
@@ -133,8 +118,8 @@ cd ~ && rm -rf .vim .vimrc .vimrc.bundles && cd -
 编辑vimrc.bundles中
 
 ```
-" more options: ['json', 'nginx', 'golang', 'ruby', 'less', 'json', ]
-let g:bundle_groups=['python', 'javascript', 'markdown', 'html', 'css', 'tmux', 'beta']
+" more options: ['json']
+let g:bundle_groups=['python', 'markdown', 'html', 'css']
 ```
 
 选定集合后, 使用插件管理工具进行安装/更新
@@ -288,9 +273,9 @@ version 9.2
 ```
 插件部分:
 1. 增加 w0rp/ale 异步语法检查插件, 用户vim版本为8.0时自动启用. 非8时, 启用默认scrooloose/syntastic, 两套插件快捷键一致
-2. 切换使用flake8作为python风格检查(pip install pep8)
-3. 启用yapf作为python代码格式化(pip install yapf)
-4. 启用eslint作为javascript代码检查
+2. 切换使用ruff作为python风格检查/修复(pip install ruff)
+3. 启用ruff format作为python代码格式化(pip install ruff)
+4. (已移除) eslint / javascript 支持
 5. YCM 设置回车选中不再弹补全框
 
 细节:
@@ -338,5 +323,3 @@ Github: https://github.com/wklken
 Blog: [http://www.wklken.me](http://www.wklken.me)
 
 2013-06-11 于深圳
-
-

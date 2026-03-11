@@ -12,7 +12,6 @@ filetype plugin indent on
 " General Settings 基础设置
 "==========================================
 
-
 set history=1000
 
 set autoread
@@ -36,7 +35,6 @@ set mouse-=a
 " set mouse=a
 " Hide the mouse cursor while typing
 " set mousehide
-
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 set selection=inclusive
@@ -117,7 +115,6 @@ endfun
 " 缩进配置
 set smartindent
 " 打开自动缩进
-" never add copyindent, case error   " copy the previous indentation on autoindenting
 set autoindent
 
 " tab相关变更
@@ -205,7 +202,6 @@ nnoremap j gj
 nnoremap gj j
 
 " F1 - F6 设置
-
 " F1 废弃这个键,防止调出系统帮助
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
 " noremap <F1> <Esc>"
@@ -238,7 +234,6 @@ map <C-l> <C-W>l
 
 " Map ; to : and save a million keystrokes 用于快速进入命令行
 nnoremap ; :
-
 
 " 命令行模式增强，ctrl - a到行首， -e 到行尾
 cnoremap <C-j> <t_kd>
@@ -375,7 +370,6 @@ if has("autocmd")
 endif
 
 set lazyredraw          " redraw only when we need to.
-
 
 "==========================================
 " Theme Settings  主题设置

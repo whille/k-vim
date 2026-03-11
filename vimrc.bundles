@@ -39,7 +39,6 @@ Plug 'tpope/vim-surround'
 	" 添加: csw" # cs word
 	" 添加-整行: yss" #you surround
 
-Plug 'kshenoy/vim-signature'
 " git
 Plug 'tpope/vim-fugitive'
 
@@ -49,9 +48,10 @@ Plug 'vim-airline/vim-airline-themes'
 " 括号显示增强
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'altercation/vim-colors-solarized'
+
 " file navigation
 Plug 'preservim/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
-Plug 'preservim/tagbar'
+Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }  " 按需加载，避免 airline 状态栏首次绘制时触发 ctags
 
 Plug 'github/copilot.vim'
     "let g:copilot_proxy_strict_ssl = v:false
@@ -68,18 +68,9 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = ","
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 " LeaderF {{{
-    " 在非 TTY 场景（如批量/脚本/调试启动）下，LeaderF 的 MRU 记录可能触发 <afile> 相关错误；
-    " 正常交互式 Vim 不受影响。
-    " 注意：GUI Vim 可能没有 ttyin/ttyout，但 MRU 仍应可用；
-    " Neovim 的 has() feature 列表也不同，因此这里显式排除。
-    " 仅在“真正无终端输入/输出”(ttyin/ttyout 都不可用)的批处理场景禁用 MRU
-    if !has('nvim') && !has('gui_running') && !has('ttyin') && !has('ttyout')
-        let g:Lf_MruEnable = 0
-    endif
     let g:Lf_WindowPosition = 'popup'
     let g:Lf_PreviewInPopup = 1
     let g:Lf_WindowHeight = 0.3
-    let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
     let g:Lf_PreviewResult = {
         \ 'File': 0,
         \ 'Buffer': 0,
@@ -113,8 +104,10 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
     " search visually selected text literally
     noremap <leader>fn :<C-U><C-R>=printf("Leaderf rg --next")<CR><CR>
-    let g:Lf_GtagsAutoGenerate = 1
-    let g:Lf_Gtagslabel = 'native-pygments'
+    " 延迟加载 Gtags：设为 0 可避免 BufRead 时加载 Gtags.vim（约 2s），按需执行 <leader>fu 更新
+    let g:Lf_GtagsAutoGenerate = 0
+    let g:Lf_GtagsAutoUpdate = 0
+    let g:Lf_Gtagslabel = 'default'   " 用 default 替代 native-pygments 可显著减少 Python 加载
     let g:Lf_GtagsSource = 2                 " 同时搜索 GTAGS 和 GRTAGS
     " gtags 精确搜索
     noremap <leader>fu :<C-U><C-R>=printf("Leaderf! gtags --update")<CR><CR>
@@ -132,7 +125,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
     "nmap <C-p> <Plug>MarkdownPreviewToggle
 " }}}
 
-Plug 'mzlogin/vim-markdown-toc'
 call plug#end()
 
 
@@ -234,10 +226,6 @@ endif
 
 " pythonsyntax {{{
     let python_highlight_all = 1
-" }}}
-
-" piv {{{
-    let g:DisableAutoPHPFolding = 1
 " }}}
 
 

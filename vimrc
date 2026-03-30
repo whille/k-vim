@@ -287,6 +287,8 @@ map Y y$
 
 " 复制选中区到系统剪切板中
 vnoremap <leader>y "+y
+" 可视化模式下按 <leader>c 复制 @file:start-end 到系统剪贴板
+vnoremap <leader>c <Esc>:call setreg('+', '@' . expand('%:p') . ':' . line("'<") . '-' . line("'>"))<CR>
 
 " auto jump to end of select
 " vnoremap <silent> y y`]

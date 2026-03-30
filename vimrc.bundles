@@ -27,7 +27,7 @@ Plug 'Raimondi/delimitMate'
 
 " quick edit
 " 快速注释
-Plug 'preservim/nerdcommenter'
+"Plug 'preservim/nerdcommenter'
 " [count]<leader>cc
 " [count]<leader>cu
 
@@ -115,15 +115,6 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     noremap <F1> :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
 " }}}
 
-
-
-" Add plugins to &runtimepath
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-" markdown-preview {{{
-    nmap <C-s> <Plug>MarkdownPreview
-    "nmap <M-s> <Plug>MarkdownPreviewStop
-    "nmap <C-p> <Plug>MarkdownPreviewToggle
-" }}}
 
 call plug#end()
 

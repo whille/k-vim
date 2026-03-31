@@ -107,7 +107,7 @@ Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
     " 延迟加载 Gtags：设为 0 可避免 BufRead 时加载 Gtags.vim（约 2s），按需执行 <leader>fu 更新
     let g:Lf_GtagsAutoGenerate = 0
     let g:Lf_GtagsAutoUpdate = 0
-    let g:Lf_Gtagslabel = 'default'   " 用 default 替代 native-pygments 可显著减少 Python 加载
+    let g:Lf_Gtagslabel = 'ctags'   " 使用 ctags 支持多种语言
     let g:Lf_GtagsSource = 2                 " 同时搜索 GTAGS 和 GRTAGS
     " gtags 精确搜索
     noremap <leader>fu :<C-U><C-R>=printf("Leaderf! gtags --update")<CR><CR>
